@@ -2,6 +2,7 @@ class Player < Sprite
 	def initialize(x,y,image)
 
 	end
+	#move
 	def up
 		self.y -= 5
 	end
