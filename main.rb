@@ -1,12 +1,16 @@
 require 'dxruby'
-require_relative 'player'
-require_relative 'director'
-Window.caption = "rubycamp"
 
-Window.width = 800
-Window.height = 600
+require_relative 'director'
+require_relative 'shittin'
+#require_relative 'player'
+
+
+Window.caption = "RubyCamp Example"
+Window.width   = 800
+Window.height  = 600
 
 director = Director.new
+
 
 Window.loop do
   director.play
