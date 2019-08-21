@@ -1,4 +1,4 @@
-class Teki < Sprite
+class Enemy < Sprite
   # def initialize(x, y, image_file)
   #   @x, @y = x, y
   #   @image = Image.load(image_file)

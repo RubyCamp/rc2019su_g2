@@ -1,47 +1,61 @@
-require_relative 'teki'
+require_relative 'enemy'
 require_relative 'player'
 require_relative 'shittin'
+require_relative 'display'
 
 module Game
   class Director
     def initialize
       @bg_img = Image.load("scenes/game/image/backscreen_loop.png")
-      @suzuki = Shittin.new(300, 300, "scenes/game/image/suzuki.png",1)
-      @morogeebi = Shittin.new(1000, 300, "scenes/game/image/ebi.png",0)
-      @unagi = Shittin.new(300, 400, "scenes/game/image/unagi.png",0)
-      @amasazi = Shittin.new(500, 300, "scenes/game/image/wakasagi.png",0)
-      @shizimi = Shittin.new(300, 500, "scenes/game/image/shizimi.png",0)
-      @koi = Shittin.new(100, 300, "scenes/game/image/koi.png",0)
-      @sirauo = Shittin.new(300, 100, "scenes/game/image/shirauo.png",0)
+      suzuki_img = Image.load("scenes/game/image/suzuki.png")
+      @suzuki = Shittin.new(300, 300, suzuki_img)
+      morogeebi_img = Image.load("scenes/game/image/ebi.png")
+      @morogeebi = Shittin.new(200, 450, morogeebi_img)
+      unagi_img = Image.load("scenes/game/image/unagi.png")
+      @unagi = Shittin.new(300, 400, unagi_img)
+      amasagi_img = Image.load("scenes/game/image/wakasagi.png")
+      @amasagi = Shittin.new(500, 300, amasagi_img)
+      shizimi_img = Image.load("scenes/game/image/shizimi.png")
+      @shizimi = Shittin.new(300, 500, shizimi_img)
+      koi_img = Image.load("scenes/game/image/koi.png")
+      @koi = Shittin.new(100, 300, koi_img)
+      sirauo_img = Image.load("scenes/game/image/shirauo.png")
+      @sirauo = Shittin.new(300, 100, sirauo_img)
+      @shittin = [@suzuki, @morogeebi, @unagi, @amasagi, @shizimi, @koi, @sirauo]
+      @hit_count = 0
+
       enemy_img = Image.load('scenes/game/image/kuribo1.png')
-      @teki=Teki.new(450,450, enemy_img)
+      @enemys = []
+      3.times do
+        @enemys << Enemy.new(rand(300)+150,rand(300)+150, enemy_img)
+      end
       player_img = Image.load('scenes/game/ghost.png')
       @player = Player.new(100, 100, player_img)
 
-      @player.collision = [0,0,20]
-      @teki.collision = [0,0,20]
+      @player.collision = [20,20,20]
+      @enemys.each{|enemy| enemy.collision = [0,0,20]}
+
       @timer_img = Image.new(600, 20, [0, 0, 255])
       @time = 200
     end
 
     def play
       Scene.move_to(:gameover) if @time >= 800
-      Scene.move_to(:ending) if !(@teki.check(@player).empty?)
+      Scene.move_to(:ending) if !(@player.check(@enemys).empty?)
 
-  # @@back_x=0
-  #    Window.draw(@@back_x, 0, @bg_img)
-  #   Window.draw(@@, 0, @bg_img)
-  # Window.draw(0, 563, @bg_img)
-  # Window.draw(800, 600, @bg_img)
-      @suzuki.draw
-      @morogeebi.draw
-      @unagi.draw
-      @amasazi.draw
-      @shizimi.draw
-      @koi.draw
-      @sirauo.draw
-      @teki.draw
-      @teki.move
+
+      if @hit_count <= 7
+        @shittin[@hit_count<=6 ? @hit_count : 6].draw
+      end
+      if !(@shittin[@hit_count<=6 ? @hit_count : 6].check(@player).empty?)
+        @hit_count += 1
+      end
+
+      display(@hit_count)
+      Scene.move_to(:ending) if (@hit_count >= 6 && Input.key_push?(K_SPACE))
+
+      @enemys.each{|enemy| enemy.move}
+      @enemys.each{|enemy| enemy.draw}
       @player.down if Input.key_down?(K_DOWN)
       @player.up if Input.key_down?(K_UP)
       @player.right if Input.key_down?(K_RIGHT)
