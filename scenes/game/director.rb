@@ -2,11 +2,22 @@ require_relative 'enemy'
 require_relative 'player'
 require_relative 'shittin'
 require_relative 'display'
+require_relative 'background'
+require_relative 'attack'
 
 module Game
   class Director
     def initialize
       @bg_img = Image.load("scenes/game/image/backscreen_loop.png")
+      @backgrounds = [
+          Background.new(Window.width, 0, @bg_img),
+          Background.new(0, 0, @bg_img),
+          Background.new(Window.width, Window.height, @bg_img),
+          Background.new(0, Window.height, @bg_img),
+        ]
+      @backgrounds.map{|obj| obj.dx = -1 }
+      @backgrounds.map{|obj| obj.dy = -1 }
+
       suzuki_img = Image.load("scenes/game/image/suzuki.png")
       @suzuki = Shittin.new(300, 300, suzuki_img)
       morogeebi_img = Image.load("scenes/game/image/ebi.png")
@@ -26,11 +37,14 @@ module Game
 
       enemy_img = Image.load('scenes/game/image/kuribo1.png')
       @enemys = []
-      3.times do
+      30.times do
         @enemys << Enemy.new(rand(300)+150,rand(300)+150, enemy_img)
       end
       player_img = Image.load('scenes/game/ghost.png')
       @player = Player.new(100, 100, player_img)
+
+      @attack_image = Image.load("scenes/game/image/kuribo1.png")
+      @attacks = []
 
       @player.collision = [20,20,20]
       @enemys.each{|enemy| enemy.collision = [0,0,20]}
@@ -42,6 +56,22 @@ module Game
     def play
       Scene.move_to(:gameover) if @time >= 800
       Scene.move_to(:ending) if !(@player.check(@enemys).empty?)
+
+
+      if Input.key_down?(K_RIGHT)
+        @backgrounds.map(&:move_right)
+      end
+      if Input.key_down?(K_LEFT)
+        @backgrounds.map(&:move_left)
+      end
+      if Input.key_down?(K_DOWN)
+        @backgrounds.map(&:move_down)
+      end
+      if Input.key_down?(K_UP)
+        @backgrounds.map(&:move_up)
+      end
+
+      @backgrounds.map(&:draw)
 
 
       if @hit_count <= 7
@@ -61,6 +91,21 @@ module Game
       @player.right if Input.key_down?(K_RIGHT)
       @player.left if Input.key_down?(K_LEFT)
       @player.draw
+
+      if Input.key_down?(K_LSHIFT)
+        @attacks << Attack.new(@player.x+1,@player.y+1,@attack_image)
+      end
+
+      @attacks.each_with_index do |attack, i|
+        attack.move
+        attack.draw
+
+        if attack.check
+          attack.vanish
+          @attacks.delete(i)
+        end
+      end
+
 
       Window.draw(@time, 0, @timer_img)
       @time += 0.4

@@ -5,6 +5,8 @@ module Ending
     end
 
     def play
+      Scene.move_to(:credit) if Input.key_push?(K_SPACE)
+
       Window.draw_font(100, 100, "ENDING", @font)
     end
   end

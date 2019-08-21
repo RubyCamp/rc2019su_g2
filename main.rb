@@ -6,8 +6,8 @@ require_relative 'scenes/load_scene'
 
 
 Window.caption = "RubyCamp Example"
-Window.width   = 800
-Window.height  = 600
+Window.width   = 900
+Window.height  = 563
 
 bgm = Sound.new("sounds/bgm.mid")
 
