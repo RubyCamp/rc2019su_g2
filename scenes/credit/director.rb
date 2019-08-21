@@ -1,5 +1,5 @@
 module Credit
-  class Director 
+  class Director
     FONT_SIZE = 30
     def initialize
       @words = %w(
