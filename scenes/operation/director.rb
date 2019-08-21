@@ -1,11 +1,11 @@
 # module Opening
   class Director
     def initialize
-      @image = Image.load("images/title.png")
+      @text = Image.load("images/text.png")
     end
 
     def play
-     Window.draw(0,0,@image)
+     Window.draw(0,0,@text)
     end
   end
 # end
