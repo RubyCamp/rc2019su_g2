@@ -68,7 +68,7 @@ module GameHard
       @attacks = []
 
       @player.collision = [20,20,20]
-      @enemys.each{|enemy| enemy.collision = [10,10,10]}
+      @enemys.each{|enemy| enemy.collision = [20,20,20]}
 
       @font_push_space = Font.new(80)
       @font_timer = Font.new(22, 'MS 明朝', weight: true, auto_fitting: true)
