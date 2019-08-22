@@ -1,13 +1,13 @@
 module Ending
   class Director
     def initialize
-      @font = Font.new(32)
+      @edImg = Image.load("scenes/ending/image/ending.png")
     end
 
     def play
       Scene.move_to(:credit) if Input.key_push?(K_SPACE)
 
-      Window.draw_font(100, 100, "ENDING", @font)
+      Window.draw(0, 0,@edImg)
     end
   end
 end

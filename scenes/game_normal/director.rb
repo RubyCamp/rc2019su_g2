@@ -57,8 +57,8 @@ module GameNormal
       @hit_count = 0
 
       # enemy_img = Image.load('scenes/game_normal/image/kuribo1.png')
-      normal_enemy_img = Image.new(20, 20, [255, 0, 0])
-      speed_enemy_img = Image.new(20, 20, [0, 255, 0])
+      normal_enemy_img = Image.load("scenes/game/image/teki_harisenbon.png")
+      speed_enemy_img = Image.load("scenes/game/image/speed_enemy.png")
       chase_enemy_img = Image.new(20, 20, [0, 0, 255])
       @enemys = []
       NOMAL_ENEMY_NUMBER.times do
@@ -71,7 +71,7 @@ module GameNormal
       #   @enemys << ChaseEnemy.new(rand(300)+150, rand(300)+150, chase_enemy_img)
       # end
 
-      player_img = Image.load('scenes/game_normal/ghost.png')
+      player_img = Image.load('scenes/game_normal/image/player.png')
       @player = Player.new(100, 100, player_img)
 
       @attack_image = Image.new(10, 10, [255, 0, 0])#("scenes/game_normal/image/kuribo1.png")
