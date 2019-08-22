@@ -35,14 +35,14 @@ module Credit
         　
         　
         　
-        Thank you 
+        Thank you
         )
       @font = Font.new(FONT_SIZE, 'MS 明朝', weight: true)
       @scroll_y = 0
     end
 
     def play
-      @scroll_y += 1
+      @scroll_y += 1 unless Input.key_down?(K_SPACE)
       frame_out = []
 
       @words.each_with_index do |word, i|
