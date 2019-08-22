@@ -14,6 +14,10 @@ class Attack<Sprite
 
  end
 
+ def shot(obj)
+   self.vanish if obj.is_a?(Enemy)
+ end
+
  # def hit(obj)
  #   puts "b"
  #   obj.vanish

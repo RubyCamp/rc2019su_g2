@@ -11,12 +11,9 @@ class Enemy < Sprite
  #     Window.draw(@x, @y, @image)
  # end
 
-  def move
+  def move(player)
     @dx = -@dx if self.x > (Window.width - self.image.width) || self.x < 0
     @dy = -@dy if self.y > (Window.height - self.image.height) || self.y < 0
-
-    self.x += (rand(4)-2) * @dx
-    self.y += (rand(4)-2) * @dy
   end
 
   def hit(obj)

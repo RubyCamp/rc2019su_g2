@@ -1,4 +1,7 @@
 require_relative 'enemy'
+require_relative 'normal_enemy'
+require_relative 'speed_enemy'
+require_relative 'chase_enemy'
 require_relative 'player'
 require_relative 'shittin'
 require_relative 'display'
@@ -7,7 +10,9 @@ require_relative 'attack'
 
 module Game
   class Director
-    ENEMY_NUMBER = 10
+    NOMAL_ENEMY_NUMBER = 5
+    SPEED_ENEMY_NUMBER = 5
+    CHASE_ENEMY_NUMBER = 5
     TIMER_SPEED = 0.4
 
     def initialize
@@ -36,13 +41,26 @@ module Game
       sirauo_img = Image.load("scenes/game/image/shirauo.png")
       @sirauo = Shittin.new(300, 100, sirauo_img)
       @shittin = [@suzuki, @morogeebi, @unagi, @amasagi, @shizimi, @koi, @sirauo]
+      @shittin.each_with_index do |shittin, i|
+        shittin.collision_enable = false
+      end
       @hit_count = 0
 
-      enemy_img = Image.load('scenes/game/image/kuribo1.png')
+      # enemy_img = Image.load('scenes/game/image/kuribo1.png')
+      normal_enemy_img = Image.new(20, 20, [255, 0, 0])
+      speed_enemy_img = Image.new(20, 20, [0, 255, 0])
+      chase_enemy_img = Image.new(20, 20, [0, 0, 255])
       @enemys = []
-      ENEMY_NUMBER.times do
-        @enemys << Enemy.new(rand(300)+150,rand(300)+150, enemy_img)
+      NOMAL_ENEMY_NUMBER.times do
+        @enemys << NomalEnemy.new(rand(300)+150, rand(300)+150, normal_enemy_img)
       end
+      SPEED_ENEMY_NUMBER.times do
+        @enemys << SpeedEnemy.new(rand(300)+150, rand(300)+150, speed_enemy_img)
+      end
+      CHASE_ENEMY_NUMBER.times do
+        @enemys << ChaseEnemy.new(rand(300)+150, rand(300)+150, chase_enemy_img)
+      end
+
       player_img = Image.load('scenes/game/ghost.png')
       @player = Player.new(100, 100, player_img)
 
@@ -50,10 +68,18 @@ module Game
       @attacks = []
 
       @player.collision = [20,20,20]
-      @enemys.each{|enemy| enemy.collision = [0,0,20]}
+      @enemys.each{|enemy| enemy.collision = [10,10,10]}
 
-      @timer_img = Image.new(600, 20, [0, 0, 255])
+      @font_push_space = Font.new(80)
+      @font_timer = Font.new(22, 'MS 明朝', weight: true, auto_fitting: true)
+
+
+      @sound = Sound.new("scenes/game/sound/sound.wav")
+
+      @timer_img = Image.new(600, 22, [0, 0, 255])
       @time = 300
+
+      @fps_counter = 0
     end
 
     def play
@@ -76,17 +102,21 @@ module Game
       @backgrounds.map(&:draw)
 
 
-      if @hit_count <= 7
+      if @hit_count <= 6
         @shittin[@hit_count<=6 ? @hit_count : 6].draw
+        @shittin[@hit_count<=6 ? @hit_count : 6].collision_enable = true
+        @shittin[@hit_count<=6 ? @hit_count-1 : 6].collision_enable = false
+      else
+        @shittin[6].collision_enable = false
       end
       if !(@shittin[@hit_count<=6 ? @hit_count : 6].check(@player).empty?)
         @hit_count += 1
       end
 
       display(@hit_count)
-      Scene.move_to(:ending) if (@hit_count >= 6 && Input.key_push?(K_SPACE))
+      Scene.move_to(:ending) if (@hit_count >= 7 && Input.key_push?(K_SPACE))
 
-      @enemys.each{|enemy| enemy.move}
+      @enemys.each{|enemy| enemy.move(@player)}
       @enemys.each{|enemy| enemy.draw}
       @player.down if Input.key_down?(K_DOWN)
       @player.up if Input.key_down?(K_UP)
@@ -94,11 +124,12 @@ module Game
       @player.left if Input.key_down?(K_LEFT)
       @player.draw
 
-      if Input.key_down?(K_LSHIFT)# && Window.running_time.round % 5 == 0
+      if Input.key_down?(K_LSHIFT) && @fps_counter % 30 == 0
         @attacks << Attack.new(@player.x+40,@player.y+20,@attack_image)
       end
 
       Sprite.check(@attacks, @enemys)
+
       @attacks.each_with_index do |attack, i|
 
         attack.move
@@ -117,9 +148,18 @@ module Game
         # end
       end
 
+      if @fps_counter % 60 >= 30
+        Window.draw_font(230, 220, "PUSH SPACE", @font_push_space) if @hit_count >= 7
+      end
 
       Window.draw(@time, 0, @timer_img)
       @time += TIMER_SPEED
+
+      Window.draw_font(800, 0, 'タイマー', @font_timer)
+
+      @sound.play if !(@player.check(@shittin).empty?)
+
+      @fps_counter += 1
     end
   end
 end
