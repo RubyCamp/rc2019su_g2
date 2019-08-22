@@ -103,6 +103,7 @@ module Game
 
 
       if @hit_count <= 6
+        @shittin[@hit_count<=6 ? @hit_count : 6].move(@player)
         @shittin[@hit_count<=6 ? @hit_count : 6].draw
         @shittin[@hit_count<=6 ? @hit_count : 6].collision_enable = true
         @shittin[@hit_count<=6 ? @hit_count-1 : 6].collision_enable = false
@@ -110,6 +111,10 @@ module Game
         @shittin[6].collision_enable = false
       end
       if !(@shittin[@hit_count<=6 ? @hit_count : 6].check(@player).empty?)
+        Window.loop do
+          Window.draw(0,0,@bg_img)
+          break if Input.key_push?(K_SPACE)
+        end
         @hit_count += 1
       end
 

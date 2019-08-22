@@ -5,7 +5,7 @@ module Operation
     end
 
     def play
-    Scene.move_to(:game) if Input.key_push?(K_SPACE)
+    Scene.move_to(:opening) if Input.key_push?(K_SPACE)
 
      Window.draw(0,0,@text)
     end
