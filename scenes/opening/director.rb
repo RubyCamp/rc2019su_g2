@@ -6,6 +6,7 @@ module Opening
       @image_normal = Image.new(200, 70,[255, 0, 0]  )
       @image_hard = Image.new(200, 70,[255, 0, 0]  )
       @font_Level = Font.new(50, 'MS 明朝', weight: true, )
+      @font_explain = Font.new(30)
 
     end
 
@@ -27,6 +28,7 @@ module Opening
      Window.draw_font(385, 220 ,"イージー", @font_Level)
      Window.draw_font(385, 320 ,"ノーマル", @font_Level)
      Window.draw_font(400, 420 ,"ハード", @font_Level)
+     Window.draw_font(600, 500, "SPACE : 操作説明", @font_explain)
 
     end
   end

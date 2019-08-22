@@ -13,7 +13,7 @@ module GameEasy
     NOMAL_ENEMY_NUMBER = 10
     # SPEED_ENEMY_NUMBER = 5
     # CHASE_ENEMY_NUMBER = 5
-    TIMER_SPEED = 0.4
+    TIMER_SPEED = 0.3
 
     def initialize
       @bg_img = Image.load("scenes/game_easy/image/backscreen_loop.png")
@@ -130,7 +130,7 @@ module GameEasy
       end
 
       display(@hit_count)
-      Scene.move_to(:ending) if (@hit_count >= 7 && Input.key_push?(K_SPACE))
+      Scene.move_to(:ending) if (@hit_count >= 7 && Input.key_push?(K_RETURN))
 
       @enemys.each{|enemy| enemy.move(@player)}
       @enemys.each{|enemy| enemy.draw}
@@ -165,7 +165,7 @@ module GameEasy
       end
 
       if @fps_counter % 60 >= 30
-        Window.draw_font(230, 220, "PUSH SPACE", @font_push_space) if @hit_count >= 7
+        Window.draw_font(230, 220, "ENTERキーを押してください", @font_push_space) if @hit_count >= 7
       end
 
       Window.draw(@time, 0, @timer_img)
