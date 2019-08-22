@@ -15,6 +15,16 @@ module Credit
   https://publicdomainq.net/boiled-shrimp-food-0015019/
 背景　〃　〃
 タイトル背景　ばんない堂　https://098free.com/rule/
+　
+　
+製作者
+　
+松田陸斗
+青砥朋紀
+平池竜大
+吉見昂大
+福間陽菜
+
         )
       @font = Font.new(FONT_SIZE, 'MS 明朝', weight: true)
       @scroll_y = 0
