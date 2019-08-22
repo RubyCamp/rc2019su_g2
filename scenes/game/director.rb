@@ -7,6 +7,9 @@ require_relative 'attack'
 
 module Game
   class Director
+    ENEMY_NUMBER = 10
+    TIMER_SPEED = 0.4
+
     def initialize
       @bg_img = Image.load("scenes/game/image/backscreen_loop.png")
       @backgrounds = [
@@ -37,39 +40,38 @@ module Game
 
       enemy_img = Image.load('scenes/game/image/kuribo1.png')
       @enemys = []
-      30.times do
+      ENEMY_NUMBER.times do
         @enemys << Enemy.new(rand(300)+150,rand(300)+150, enemy_img)
       end
       player_img = Image.load('scenes/game/ghost.png')
       @player = Player.new(100, 100, player_img)
 
-      @attack_image = Image.load("scenes/game/image/kuribo1.png")
+      @attack_image = Image.new(10, 10, [255, 0, 0])#("scenes/game/image/kuribo1.png")
       @attacks = []
 
       @player.collision = [20,20,20]
       @enemys.each{|enemy| enemy.collision = [0,0,20]}
 
       @timer_img = Image.new(600, 20, [0, 0, 255])
-      @time = 200
+      @time = 300
     end
 
     def play
-      Scene.move_to(:gameover) if @time >= 800
-      Scene.move_to(:ending) if !(@player.check(@enemys).empty?)
+      Scene.move_to(:gameover) if @time >= 900
+      Scene.move_to(:gameover) if !(@player.check(@enemys).empty?)
 
-
-      if Input.key_down?(K_RIGHT)
-        @backgrounds.map(&:move_right)
-      end
-      if Input.key_down?(K_LEFT)
-        @backgrounds.map(&:move_left)
-      end
-      if Input.key_down?(K_DOWN)
-        @backgrounds.map(&:move_down)
-      end
-      if Input.key_down?(K_UP)
-        @backgrounds.map(&:move_up)
-      end
+      # if Input.key_down?(K_RIGHT)
+      #   @backgrounds.map(&:move_right)
+      # end
+      # if Input.key_down?(K_LEFT)
+      #   @backgrounds.map(&:move_left)
+      # end
+      # if Input.key_down?(K_DOWN)
+      #   @backgrounds.map(&:move_down)
+      # end
+      # if Input.key_down?(K_UP)
+      #   @backgrounds.map(&:move_up)
+      # end
 
       @backgrounds.map(&:draw)
 
@@ -92,23 +94,32 @@ module Game
       @player.left if Input.key_down?(K_LEFT)
       @player.draw
 
-      if Input.key_down?(K_LSHIFT)
-        @attacks << Attack.new(@player.x+1,@player.y+1,@attack_image)
+      if Input.key_down?(K_LSHIFT)# && Window.running_time.round % 5 == 0
+        @attacks << Attack.new(@player.x+40,@player.y+20,@attack_image)
       end
 
+      Sprite.check(@attacks, @enemys)
       @attacks.each_with_index do |attack, i|
+
         attack.move
         attack.draw
 
-        if attack.check
-          attack.vanish
-          @attacks.delete(i)
-        end
+
+
+        # if attack.window_out
+        #   attack.vanish
+        #   @attacks.delete(i)
+        # end
+        # if !(attack.check(@enemys).empty?)
+        #   attack.check(@emenys).each_with_index do |enemy, i|
+        #     enemy.vanish
+        #   end
+        # end
       end
 
 
       Window.draw(@time, 0, @timer_img)
-      @time += 0.4
+      @time += TIMER_SPEED
     end
   end
 end

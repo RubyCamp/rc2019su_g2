@@ -3,14 +3,19 @@ class Attack<Sprite
     @dx = 2
     super
   end
-  
+
  def move
     self.x+=@dx
- end     
-    
-  
- def check
-  self.x > (Window.width - self.image.width) 
- 
  end
-  end
+
+
+ def window_out
+  self.x > (Window.width - self.image.width)
+
+ end
+
+ # def hit(obj)
+ #   puts "b"
+ #   obj.vanish
+ # end
+end
