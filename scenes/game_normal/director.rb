@@ -26,6 +26,16 @@ module GameNormal
       @backgrounds.map{|obj| obj.dx = -1 }
       @backgrounds.map{|obj| obj.dy = -1 }
 
+      @suzuki_ex = Image.load("explain/suzuki_ex.png")
+      @morogeebi_ex = Image.load("explain/morogeebi_ex.png")
+      @unagi_ex = Image.load("explain/unagi_ex.png")
+      @amasagi_ex = Image.load("explain/amasagi_ex.png")
+      @shizimi_ex = Image.load("explain/shizimi_ex.png")
+      @koi_ex = Image.load("explain/koi_ex.png")
+      @sirauo_ex = Image.load("explain/sirauo_ex.png")
+      @shittin_ex = [@suzuki_ex, @morogeebi_ex, @unagi_ex, @amasagi_ex, @shizimi_ex, @koi_ex, @sirauo_ex]
+
+
       suzuki_img = Image.load("scenes/game_normal/image/suzuki.png")
       @suzuki = Shittin.new(300, 300, suzuki_img)
       morogeebi_img = Image.load("scenes/game_normal/image/ebi.png")
@@ -70,7 +80,7 @@ module GameNormal
       @player.collision = [20,20,20]
       @enemys.each{|enemy| enemy.collision = [10,10,10]}
 
-      @font_push_space = Font.new(80)
+      @font_push_space = Font.new(40)
       @font_timer = Font.new(22, 'MS 明朝', weight: true, auto_fitting: true)
 
 
@@ -99,7 +109,8 @@ module GameNormal
       #   @backgrounds.map(&:move_up)
       # end
 
-      @backgrounds.map(&:draw)
+      # @backgrounds.map(&:draw)
+      Window.draw(0, 0, @bg_img)
 
 
       if @hit_count <= 6
@@ -112,7 +123,8 @@ module GameNormal
       end
       if !(@shittin[@hit_count<=6 ? @hit_count : 6].check(@player).empty?)
         Window.loop do
-          Window.draw(0,0,@bg_img)
+          Window.draw(50,50,@shittin_ex[@hit_count<=6 ? @hit_count : 6])
+          Window.draw_font(600, 520, "PUSH SPACE", @font_push_space)
           break if Input.key_push?(K_SPACE)
         end
         @hit_count += 1
@@ -129,7 +141,7 @@ module GameNormal
       @player.left if Input.key_down?(K_LEFT)
       @player.draw
 
-      if Input.key_down?(K_LSHIFT) && @fps_counter % 30 == 0
+      if Input.key_down?(K_LSHIFT) && @fps_counter % 20 == 0
         @attacks << Attack.new(@player.x+40,@player.y+20,@attack_image)
       end
 

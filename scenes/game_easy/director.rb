@@ -140,7 +140,7 @@ module GameEasy
       @player.left if Input.key_down?(K_LEFT)
       @player.draw
 
-      if Input.key_down?(K_LSHIFT) && @fps_counter % 30 == 0
+      if Input.key_down?(K_LSHIFT) && @fps_counter % 20 == 0
         @attacks << Attack.new(@player.x+40,@player.y+20,@attack_image)
       end
 

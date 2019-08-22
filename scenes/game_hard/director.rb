@@ -12,7 +12,7 @@ module GameHard
   class Director
     NOMAL_ENEMY_NUMBER = 5
     SPEED_ENEMY_NUMBER = 5
-    CHASE_ENEMY_NUMBER = 5
+    CHASE_ENEMY_NUMBER = 1
     TIMER_SPEED = 0.4
 
     def initialize
@@ -49,7 +49,7 @@ module GameHard
       # enemy_img = Image.load('scenes/game_hard/image/kuribo1.png')
       normal_enemy_img = Image.new(20, 20, [255, 0, 0])
       speed_enemy_img = Image.new(20, 20, [0, 255, 0])
-      chase_enemy_img = Image.new(20, 20, [0, 0, 255])
+      chase_enemy_img = Image.new(60, 60, [0, 0, 255])
       @enemys = []
       NOMAL_ENEMY_NUMBER.times do
         @enemys << NomalEnemy.new(rand(300)+150, rand(300)+150, normal_enemy_img)
@@ -111,10 +111,6 @@ module GameHard
         @shittin[6].collision_enable = false
       end
       if !(@shittin[@hit_count<=6 ? @hit_count : 6].check(@player).empty?)
-        Window.loop do
-          Window.draw(0,0,@bg_img)
-          break if Input.key_push?(K_SPACE)
-        end
         @hit_count += 1
       end
 
@@ -129,16 +125,16 @@ module GameHard
       @player.left if Input.key_down?(K_LEFT)
       @player.draw
 
-      if Input.key_down?(K_LSHIFT) && @fps_counter % 30 == 0
-        @attacks << Attack.new(@player.x+40,@player.y+20,@attack_image)
-      end
-
-      Sprite.check(@attacks, @enemys)
-
-      @attacks.each_with_index do |attack, i|
-
-        attack.move
-        attack.draw
+      # if Input.key_down?(K_LSHIFT) && @fps_counter % 20 == 0
+      #   @attacks << Attack.new(@player.x+40,@player.y+20,@attack_image)
+      # end
+      #
+      # Sprite.check(@attacks, @enemys)
+      #
+      # @attacks.each_with_index do |attack, i|
+      #
+      #   attack.move
+      #   attack.draw
 
 
 
@@ -151,7 +147,7 @@ module GameHard
         #     enemy.vanish
         #   end
         # end
-      end
+      # end
 
       if @fps_counter % 60 >= 30
         Window.draw_font(230, 220, "PUSH SPACE", @font_push_space) if @hit_count >= 7
