@@ -4,10 +4,10 @@
     
     
     @counter = 0
-    @char = Character.new(0, 300, Image.load("images/char.png"))
+    @char = Character.new(700, 500, Image.load("images/char.png"))
     @bg_img = Image.load("images/background.png")
-    @shimane=Sprite.new(260,340,Image.load("images/char.png"))
-	@matsue=Sprite.new(100,100,Image.load("images/char.png"))
+    @shimane=Sprite.new(260,340,Image.load("images/shimane.png"))
+	@matsue=Sprite.new(580,245,Image.load("images/shimane2.png"))
 	@is_vanish_shimane = false
 	@is_vanish_matsue = false
   end
