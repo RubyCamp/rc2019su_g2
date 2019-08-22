@@ -11,7 +11,7 @@ Window.height  = 563
 
 bgm = Sound.new("sounds/bgm.mid")
 
-Scene.move_to(:opening)
+Scene.move_to(:travel)
 # bgm.play
 
 Window.loop do
