@@ -17,9 +17,9 @@ module Opening
     (Input.mouse_pos_x >= 350 && Input.mouse_pos_x <= 550 && Input.mouse_pos_y >= 310 && Input.mouse_pos_y <= 380) ? @image_normal = Image.new(200, 70, [200, 20, 0]) : @image_normal = Image.new(200, 70, [255, 0, 0])
     (Input.mouse_pos_x >= 350 && Input.mouse_pos_x <= 550 && Input.mouse_pos_y >= 410 && Input.mouse_pos_y <= 480) ? @image_hard = Image.new(200, 70, [200, 20, 0]) : @image_hard = Image.new(200, 70, [255, 0, 0])
 
-    Scene.move_to(:game_easy) if (Input.mouse_pos_x >= 350 && Input.mouse_pos_x <= 550 && Input.mouse_pos_y >= 210 && Input.mouse_pos_y <= 280 && Input.mouse_push?(M_LBUTTON)) || Input.key_push?(K_1)
-    Scene.move_to(:game_normal) if (Input.mouse_pos_x >= 350 && Input.mouse_pos_x <= 550 && Input.mouse_pos_y >= 310 && Input.mouse_pos_y <= 380 && Input.mouse_push?(M_LBUTTON)) || Input.key_push?(K_2)
-    Scene.move_to(:game_hard) if (Input.mouse_pos_x >= 350 && Input.mouse_pos_x <= 550 && Input.mouse_pos_y >= 410 && Input.mouse_pos_y <= 480 && Input.mouse_push?(M_LBUTTON)) || Input.key_push?(K_3)
+    Scene.move_to(:game_easy) if (Input.mouse_pos_x >= 350 && Input.mouse_pos_x <= 550 && Input.mouse_pos_y >= 210 && Input.mouse_pos_y <= 280 && Input.mouse_push?(M_LBUTTON)) || Input.key_push?(K_C)
+    Scene.move_to(:game_normal) if (Input.mouse_pos_x >= 350 && Input.mouse_pos_x <= 550 && Input.mouse_pos_y >= 310 && Input.mouse_pos_y <= 380 && Input.mouse_push?(M_LBUTTON)) || Input.key_push?(K_V)
+    Scene.move_to(:game_hard) if (Input.mouse_pos_x >= 350 && Input.mouse_pos_x <= 550 && Input.mouse_pos_y >= 410 && Input.mouse_pos_y <= 480 && Input.mouse_push?(M_LBUTTON)) || Input.key_push?(K_B)
 
      Window.draw(0,0,@image)
      Window.draw(350, 210 ,@image_easy)

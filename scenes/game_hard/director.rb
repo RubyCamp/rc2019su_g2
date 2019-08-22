@@ -119,10 +119,10 @@ module GameHard
 
       @enemys.each{|enemy| enemy.move(@player)}
       @enemys.each{|enemy| enemy.draw}
-      @player.down if Input.key_down?(K_DOWN)
-      @player.up if Input.key_down?(K_UP)
-      @player.right if Input.key_down?(K_RIGHT)
-      @player.left if Input.key_down?(K_LEFT)
+      @player.down if Input.key_down?(K_DOWN) || Input.key_down?(K_S)
+      @player.up if Input.key_down?(K_UP) || Input.key_down?(K_W)
+      @player.right if Input.key_down?(K_RIGHT) || Input.key_down?(K_D)
+      @player.left if Input.key_down?(K_LEFT) || Input.key_down?(K_A)
       @player.draw
 
       # if Input.key_down?(K_LSHIFT) && @fps_counter % 20 == 0
