@@ -43,6 +43,7 @@ module Credit
 
     def play
       @scroll_y += 1 unless Input.key_down?(K_SPACE)
+      @scroll_y += 5 if Input.key_down?(K_RETURN)
       frame_out = []
 
       @words.each_with_index do |word, i|
