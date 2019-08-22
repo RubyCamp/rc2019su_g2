@@ -13,7 +13,7 @@ module GameNormal
     NOMAL_ENEMY_NUMBER = 5
     SPEED_ENEMY_NUMBER = 8
     # CHASE_ENEMY_NUMBER = 5
-    TIMER_SPEED = 0.4
+    TIMER_SPEED = 0.3
 
     def initialize
       @bg_img = Image.load("scenes/game_normal/image/backscreen_loop.png")
@@ -57,9 +57,9 @@ module GameNormal
       @hit_count = 0
 
       # enemy_img = Image.load('scenes/game_normal/image/kuribo1.png')
-      normal_enemy_img = Image.load("scenes/game/image/teki_harisenbon.png")
-      speed_enemy_img = Image.load("scenes/game/image/speed_enemy.png")
-      chase_enemy_img = Image.new(20, 20, [0, 0, 255])
+      normal_enemy_img = Image.load("scenes/game_normal/image/teki_harisenbon.png")
+      speed_enemy_img = Image.load("scenes/game_normal/image/speed_enemy.png")
+      chase_enemy_img = Image.load("scenes/game_normal/image/matz.png")
       @enemys = []
       NOMAL_ENEMY_NUMBER.times do
         @enemys << NomalEnemy.new(rand(300)+150, rand(300)+150, normal_enemy_img)
@@ -71,7 +71,7 @@ module GameNormal
       #   @enemys << ChaseEnemy.new(rand(300)+150, rand(300)+150, chase_enemy_img)
       # end
 
-      player_img = Image.load('scenes/game_normal/image/player.png')
+      player_img = Image.load("scenes/game_normal/image/ocean_kaichu_post.png")
       @player = Player.new(100, 100, player_img)
 
       @attack_image = Image.new(10, 10, [255, 0, 0])#("scenes/game_normal/image/kuribo1.png")
@@ -131,7 +131,7 @@ module GameNormal
       end
 
       display(@hit_count)
-      Scene.move_to(:ending) if (@hit_count >= 7 && Input.key_push?(K_SPACE))
+      Scene.move_to(:ending) if (@hit_count >= 7 && Input.key_push?(K_RETURN))
 
       @enemys.each{|enemy| enemy.move(@player)}
       @enemys.each{|enemy| enemy.draw}
@@ -166,7 +166,7 @@ module GameNormal
       end
 
       if @fps_counter % 60 >= 30
-        Window.draw_font(230, 220, "PUSH SPACE", @font_push_space) if @hit_count >= 7
+        Window.draw_font(230, 220, "ENTERキーを押してください", @font_push_space) if @hit_count >= 7
       end
 
       Window.draw(@time, 0, @timer_img)
