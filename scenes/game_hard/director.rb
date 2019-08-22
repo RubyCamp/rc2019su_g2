@@ -13,7 +13,7 @@ module GameHard
     NOMAL_ENEMY_NUMBER = 5
     SPEED_ENEMY_NUMBER = 5
     CHASE_ENEMY_NUMBER = 1
-    TIMER_SPEED = 0.3
+    TIMER_SPEED = 0.15
 
     def initialize
       @bg_img = Image.load("scenes/game_hard/image/backscreen_loop.png")
