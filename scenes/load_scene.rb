@@ -1,0 +1,22 @@
+require_relative 'opening/director'
+require_relative 'operation/director'
+require_relative 'game/director'
+require_relative 'game_easy/director'
+require_relative 'game_normal/director'
+require_relative 'game_hard/director'
+require_relative 'ending/director'
+require_relative 'gameover/director'
+require_relative 'operation/director'
+require_relative 'credit/director'
+require_relative 'travel/director'
+
+Scene.add(Opening::Director.new,  :opening)
+Scene.add(Game::Director.new,  :game)
+Scene.add(GameEasy::Director.new,  :game_easy)
+Scene.add(GameNormal::Director.new,  :game_normal)
+Scene.add(GameHard::Director.new,  :game_hard)
+Scene.add(Ending::Director.new,  :ending)
+Scene.add(Gameover::Director.new,  :gameover)
+Scene.add(Operation::Director.new, :operation)
+Scene.add(Credit::Director.new, :credit)
+Scene.add(Travel::Director.new, :travel)
